@@ -1,7 +1,7 @@
 #!/bin/sh
-
+#设置出错时退出整个bash脚本
 set -eu
-
+#ARGS用于接收任意参数
 ARGS="$*"
 SCRIPT_VERSION="(unreleased version)"
 if [ "$SCRIPT_VERSION" = "(unreleased version)" ]; then
