@@ -48,6 +48,9 @@ usage() {
 		Launch options:
 	EOF
     # shellcheck disable=SC2086
+	#当你仅仅需要短暂的运行一个容器，并且这些数据不需要保存，你可能就希望Docker能在容器结束时自动清理其所产生的数据。这个时候你就需要--rm这个参数了。 注意：--rm 和 -d不能共用！
+	#关于更多docker命令行参数，请参考官方文档
+	#https://docs.docker.com/edge/engine/reference/commandline/docker/
     docker run --rm -e CHECKPOINT_DISABLE --entrypoint=/home/weave/scope \
         $WEAVESCOPE_DOCKER_ARGS "$SCOPE_IMAGE" -h >&2
 }
@@ -56,7 +59,10 @@ usage_and_die() {
     usage
     exit 1
 }
-
+#$# 是传给脚本的参数个数
+#$@ 是传给脚本的所有参数的列表
+#$0 是脚本本身的名字
+#$1是传递给该shell脚本的第一个参数
 [ $# -gt 0 ] || usage_and_die
 COMMAND=$1
 shift 1
@@ -64,6 +70,7 @@ shift 1
 check_docker_access() {
 
     # Extract socket path
+	#读取socket路径，检测docker可用性
     DOCKER_SOCK_FILE=""
     if [ -z "${DOCKER_HOST+x}" ]; then
         DOCKER_SOCK_FILE="/var/run/docker.sock"
@@ -214,7 +221,7 @@ dry_run() {
     # shellcheck disable=SC2046
     docker run --rm --entrypoint=/home/weave/scope $(docker_args) "$SCOPE_IMAGE" --dry-run "$@"
 }
-
+#检测docker可用性和docker的版本
 check_docker_access
 check_docker_version
 
