@@ -251,7 +251,7 @@ func main() {
 		containerLabelFilterFlags        = containerLabelFiltersFlag{exclude: false, filterIDPrefix: "containerLabelFilterExclude"}
 		containerLabelFilterFlagsExclude = containerLabelFiltersFlag{exclude: true, filterIDPrefix: "containerLabelFilter"}
 	)
-
+	// 应用到探针和app的flags变量
 	// Flags that apply to both probe and app
 	flag.StringVar(&mode, "mode", "help", "For internal use.")
 	flag.BoolVar(&debug, "debug", false, "Force debug logging.")
